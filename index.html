@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Football Simulator</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Advanced Football Simulator</h1>
+            <p>Interactive training and match simulation</p>
+            <div class="match-info">
+                <div class="score" id="match-score">0 - 0</div>
+                <div class="timer" id="match-timer">00:00</div>
+            </div>
+        </header>
+
+        <div class="simulator-container">
+            <div class="field-container">
+                <div class="football-field" id="field">
+                    <div class="goal-area left"></div>
+                    <div class="goal left"></div>
+                    <div class="goal-area right"></div>
+                    <div class="goal right"></div>
+                    <div class="center-circle"></div>
+                    <div class="penalty-area left"></div>
+                    <div class="penalty-area right"></div>
+                </div>
+                
+                <div class="stats-panel">
+                    <div class="tab-container">
+                        <div class="tab active" data-tab="stats">Statistics</div>
+                        <div class="tab" data-tab="events">Match Events</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="stats-content">
+                        <div class="stats-grid" id="stats">
+                            <div class="stat-item">
+                                <span>Players:</span>
+                                <span class="stat-value" id="player-count">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Ball Possession:</span>
+                                <span class="stat-value" id="ball-possession">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Passes:</span>
+                                <span class="stat-value" id="pass-count">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Shots:</span>
+                                <span class="stat-value" id="shot-count">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Distance Covered:</span>
+                                <span class="stat-value" id="distance-covered">0m</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Tackles:</span>
+                                <span class="stat-value" id="tackle-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="events-content">
+                        <div class="match-events" id="match-events">
+                            <!-- Match events will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <h3>Simulation Mode</h3>
+                    <select id="simulation-mode">
+                        <option value="training">Training Mode</option>
+                        <option value="match">Match Mode</option>
+                    </select>
+                    <button id="start-match" class="success">Start Match</button>
+                    <button id="stop-match" class="danger" disabled>Stop Match</button>
+                </div>
+
+                <div class="control-group">
+                    <h3>Team Setup</h3>
+                    <label for="formation">Formation</label>
+                    <select id="formation">
+                        <option value="4-4-2">4-4-2</option>
+                        <option value="4-3-3">4-3-3</option>
+                        <option value="3-5-2">3-5-2</option>
+                        <option value="4-2-3-1">4-2-3-1</option>
+                        <option value="5-3-2">5-3-2</option>
+                    </select>
+
+                    <label for="team-type">Team Type</label>
+                    <select id="team-type">
+                        <option value="team">My Team</option>
+                        <option value="opponent">Opponent</option>
+                    </select>
+
+                    <button id="add-formation">Add Formation</button>
+                    <button id="clear-field" class="danger">Clear Field</button>
+                </div>
+
+                <div class="control-group">
+                    <h3>Selected Formation</h3>
+                    <div class="formation-preview" id="formation-preview">
+                        <!-- Formation preview will be shown here -->
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Ball Control</h3>
+                    <label for="ball-player">Assign Ball to Player</label>
+                    <select id="ball-player">
+                        <option value="">None</option>
+                        <!-- Players will be added here dynamically -->
+                    </select>
+
+                    <label for="ball-position">Or Set Ball Position</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="ball-x" placeholder="X" min="0" max="100" style="width: 50%;">
+                        <input type="number" id="ball-y" placeholder="Y" min="0" max="100" style="width: 50%;">
+                    </div>
+                    <button id="set-ball-position">Set Ball Position</button>
+                </div>
+
+                <div class="control-group">
+                    <h3>Training Drills</h3>
+                    <label for="drill-type">Drill Type</label>
+                    <select id="drill-type">
+                        <option value="passing">Passing</option>
+                        <option value="positioning">Positioning</option>
+                        <option value="pressing">Pressing</option>
+                        <option value="counter">Counter Attack</option>
+                        <option value="shooting">Shooting</option>
+                    </select>
+                    <button id="start-drill">Start Drill</button>
+                    <button id="stop-drill" disabled>Stop Drill</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="player-info" id="player-info">
+        <span class="close-info" id="close-info">×</span>
+        <h4 id="info-name">Player 1</h4>
+        <p>Position: <span id="info-position">Midfielder</span></p>
+        <p>Team: <span id="info-team">My Team</span></p>
+        <p>Distance: <span id="info-distance">0m</span></p>
+        <p>Passes: <span id="info-passes">0</span></p>
+        <p>Shots: <span id="info-shots">0</span></p>
+        <p>Tackles: <span id="info-tackles">0</span></p>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <script src="js.js"></script>
+</body>
+</html>
